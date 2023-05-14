@@ -1,34 +1,46 @@
 import React from "react";
 import CollapseWrapper from "../common/collapse";
+import PropTypes from "prop-types";
+
+const ListComponent = ({ children }) => {
+  return (
+    <>
+      {React.Children.map(children, (child, index) => (
+        <div className="d-flex mt-2">
+          {index + 1}. {child}
+        </div>
+      ))}
+    </>
+  );
+};
 
 const ChildrenExercise = () => {
-  const children = [<Component key={1}/>, <Component key={2}/>, <Component key={3}/>];
-
-  const childrenWithNumbers = children.map((child, index) => {
-    return (
-      <div key={index} className="d-flex align-items-center">
-        <div className="me-2">{index + 1}.</div>
-        {child}
-      </div>
-    );
-  });
-
   return (
     <CollapseWrapper title="Упражнение">
-         <p className="mt-3">
-                У вас есть компоненты Списка. Вам необходимо к каждому из них
-                добавить порядковый номер, относительно того, как они
-                располагаются на странице. Вы можете использовать как{" "}
-                <code>React.Children.map</code> так и{" "}
-                <code>React.Children.toArray</code>
-            </p>
-      <div className="d-flex flex-column">{childrenWithNumbers}</div>
+      <p className="mt-3">
+        У вас есть компоненты Списка. Вам необходимо к каждому из них
+        добавить порядковый номер, относительно того, как они располагаются на
+        странице. Вы можете использовать как <code>React.Children.map</code>{" "}
+        так и <code>React.Children.toArray</code>
+      </p>
+      <ListComponent>
+        <Component />
+        <Component />
+        <Component />
+      </ListComponent>
     </CollapseWrapper>
   );
 };
 
 const Component = () => {
-  return <div className="list-group-item">Компонент списка</div>;
+  return <div className="mx-2">Компонент списка</div>;
+};
+
+ListComponent.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
 };
 
 export default ChildrenExercise;
